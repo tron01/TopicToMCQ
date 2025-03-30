@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || process.env.VITE_GOOGLE_API_KEY;
 import { CSVLink } from "react-csv";
+
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || process.env.VITE_GOOGLE_API_KEY;
 
 const TopicToMCQ = () => {
     const [topic, setTopic] = useState("");
@@ -20,7 +20,7 @@ const TopicToMCQ = () => {
             alert("Please enter a topic");
             return;
         }
-    
+        
         setLoading(true);
     
         try {
@@ -30,11 +30,13 @@ const TopicToMCQ = () => {
                         parts: [
                             {
                                 text: `Generate 100 multiple-choice questions (MCQs) in JSON format for the topic: ${topic}. The structure should be:
-                                {
-                                    "question": "Sample question?",
-                                    "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-                                    "answer": "Correct option"
-                                }`
+                                [
+                                    {
+                                        "question": "Sample question?",
+                                        "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+                                        "answer": "Correct option"
+                                    }
+                                ]`
                             },
                         ],
                     },
@@ -51,14 +53,11 @@ const TopicToMCQ = () => {
     
             console.log("Raw Text:", rawText);
     
-            // Clean JSON if needed
             const cleanJson = rawText.replace(/```json|```/g, "").trim();
     
             try {
                 let mcqsArray = JSON.parse(cleanJson);
-                console.log("MCQs Array:", mcqsArray);
     
-                // Convert "options" array to separate fields
                 mcqsArray = mcqsArray.map((mcq) => ({
                     question: mcq.question,
                     optionA: mcq.options[0],
@@ -70,7 +69,6 @@ const TopicToMCQ = () => {
     
                 setMcqDataset(mcqsArray);
                 setJsonDataset(JSON.stringify(mcqsArray, null, 2));
-                console.log("Transformed MCQs:", mcqsArray);
             } catch (parseError) {
                 console.error("JSON Parsing Error:", parseError.message);
                 alert("Failed to parse JSON. Please check API response.");
@@ -86,8 +84,6 @@ const TopicToMCQ = () => {
         }
     };
     
-    
-
     const startTest = () => {
         setTestStarted(true);
         setCurrentQuestion(0);
@@ -144,7 +140,7 @@ const TopicToMCQ = () => {
                     <div>
                         <h4>{mcqDataset[currentQuestion].question}</h4>
                         <div className="list-group">
-                            {['optionA', 'optionB', 'optionC', 'optionD'].map((opt) => (
+                            {["optionA", "optionB", "optionC", "optionD"].map((opt) => (
                                 <button key={opt} className="list-group-item list-group-item-action" onClick={() => handleAnswer(mcqDataset[currentQuestion][opt])}>
                                     {mcqDataset[currentQuestion][opt]}
                                 </button>
