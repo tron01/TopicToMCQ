@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Inject API Key
-        run: echo "VITE_GOOGLE_API_KEY=${{ secrets.VITE_GOOGLE_API_KEY }}" > .env
+        run: echo "GOOGLE_API_KEY=${{ secrets.VITE_GOOGLE_API_KEY }}" > .env
 
       - name: Build project
         run: npm run build
