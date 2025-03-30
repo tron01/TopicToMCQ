@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import { GEMINI_API_KEY, GEMINI_API_URL } from "../config";
+import {  GEMINI_API_URL } from "../config";
 import { CSVLink } from "react-csv";
+const GEMINI_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 const TopicToMCQ = () => {
     const [topic, setTopic] = useState("");
